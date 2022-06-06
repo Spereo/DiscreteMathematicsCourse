@@ -17,8 +17,8 @@ namespace Dijkstra
                 "\nВ первой строке укажите n - количество вершин графа\n" +
                 "\nВо второй строке укажите s - начальный маршрутизатор (исток), s не превышает n\n" +
                 "\nВ последующих n строках укажите матрицу смежности графа (n x n), представляющей собой сеть," +
-                "\nгде номера маршрутизаторов - вершины, связи - рёбра, с указанием стоимости пути между" +
-                "\nкаждым маршрутизатором, если таковой путь имеется.\n";
+                "где номера маршрутизаторов - вершины, связи - рёбра, с указанием стоимости пути между" +
+                "каждым маршрутизатором, если таковой путь имеется.\n";
 
 
 
@@ -153,6 +153,7 @@ namespace Dijkstra
                 if (i != s && d[i] != INF)
                 {
                     Console.WriteLine("Наименьшая стоимости пути до маршрутизатора {0} равна {1}", i + 1, d[i]);
+                    RestorePath(i + 1);
                     isEmpty = false;
                 }
             }
@@ -188,6 +189,32 @@ namespace Dijkstra
                 BuildG();
             else BuildG(Environment.CurrentDirectory.ToString() + "\\graph.txt");
 
+        }
+
+
+
+        static void RestorePath(int finish)
+        {
+            List<int> destination = new List<int>();
+            for (int v = finish - 1; v != s; v = p[v])
+            {
+                destination.Add(v + 1);
+            }
+            destination.Add(s + 1);
+            destination.Reverse();
+
+            if (d[finish - 1] != INF)
+            {
+                Console.Write("Восстановленный путь: ");
+                for (int i = 0; i < destination.Count; i++)
+                {
+                    if (i != destination.Count - 1)
+                        Console.Write($"{destination[i]} --> ");
+                    else
+                        Console.Write($"{destination[i]}");
+                }
+                Console.WriteLine();
+            }
         }
 
 
